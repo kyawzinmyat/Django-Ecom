@@ -45,7 +45,7 @@ class Basket:
         return sum(item['qty'] for item in self.basket.values())
     
     def get_total_price(self):
-        return sum(product['price'] * product['qty'] for product in self.basket.values())
+        return sum(float(product['price']) * product['qty'] for product in self.basket.values())
     
     def __len__(self):
         return self.get_qty()
