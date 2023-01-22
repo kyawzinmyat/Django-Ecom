@@ -1,39 +1,41 @@
-{% extends '../store/base.html' %} {% load static %} {% block title %}Basket
-Summary{% endblock %} {% block content %}
-
-
-
-<div class="container-fluid basket-body">
-  <div class = 'basket-header'>
-    <div class="col-12">
-      <h1>Basket Summary</h1>
-    </div>
-  </div>
-
-  <div class = 'cart-page'>
-    <table>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Subtotal</th>
-      </tr>
+<main class="pt-5 t-10" style="margin-top: 10%">
+  <div class="container">
+    <h1 class="h5">Shopping basket</h1>
+    <div style="margin-top: 10%">
       {% for item in basket %} {% with product=item.product %}
-      <tr>
-        <td>
-          <div class="cart-info">
-            <img class="product-img" src="{{ product.image.url }}" />
-            <div>
-              <p>
-                <a href="{{ product.get_absolute_url}}">{{ product.title }}</a>
-              </p>
-              <p>Price: ${{ product.price }}</p>
+      <div data-index="{{product.id}}" class="row mb-4 border product-item">
+        <div class="col-md-3 col-lg-2 order-md-first bg-light">
+          <img
+            class="img-fluid mx-auto d-block"
+            width="120px"
+            alt="Responsive image"
+            src="{{ product.image.url }}"
+          />
+        </div>
+        <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
+          <a
+            href="{{ product.get_absolute_url }}"
+            class="text-decoration-none text-reset"
+          >
+            <h1 class="h5 pt-2">{{ product.title }}</h1>
+          </a>
+          <div class="border">
+            <div class="col border-bottom">
+              <div class="row p-3">
+                <div class="col-4">Hardback Book</div>
+                <div class="col-4 text-end">
+                  <span class="h6 fw-bold">£{{ product.price }}</span>
+                </div>
+                <div class="col-4 text-end">
+                  <span class="h6 fw-bold">£{{ item.total_price }}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </td>
-        <td>
-          <div>
-            <label for="select">Qty</label>
-                  <select id="select{{product.id}}" style = 'background:black; color:white'>
+            <div class="col">
+              <div class="row p-3">
+                <div class="col-12">
+                  <label for="select">Qty</label>
+                  <select id="select{{product.id}}">
                     <option selected>{{item.qty}}</option>
                     <option value="">1</option>
                     <option value="">2</option>
@@ -45,7 +47,7 @@ Summary{% endblock %} {% block content %}
                     id="update-button"
                     data-index="{{product.id}}"
                     value="{{product.id}}"
-                    class="btn text-white btn-outline-secondary btn-sm update-button"
+                    class="btn btn-outline-secondary btn-sm update-button"
                   >
                     Update
                   </button>
@@ -54,46 +56,28 @@ Summary{% endblock %} {% block content %}
                     id="delete-button"
                     data-index="{{product.id}}"
                     value="{{product.id}}"
-                    class="btn text-white btn-outline-secondary btn-sm delete-button"
+                    class="btn btn-outline-secondary btn-sm delete-button"
                   >
                     Delete
                   </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </td>
-        <td>{{ item.total_price }}</td>
-      </tr>
+        </div>
+      </div>
       {% endwith %} {% endfor %}
-    </table>
-  
-    <div class="total-price">
-      <table>
-        <tr>
-          <td >Total Quantity</td>
-          <td>{{ basket.get_qty }}</td>
-        </tr>
-        <tr>
-          <td>Total Price</td>
-          <td>$ {{ basket.get_total_price }}</td>
-        </tr>
-      </table>
+    </div>
+    <div class="col-12 text-end">
+      <div class="h6 fw-bold">
+        Sub Total: £
+        <div id="subtotal" class="d-inline-flex">
+          {{basket.get_total_price}}
+        </div>
+      </div>
     </div>
   </div>
-
-
-
-  <div class = ''>
-    <div class = "row">
-        <div class = 'col-6'>
-          <button class = 'checkout-button' style = ''>Checkout</button>
-        </div>
-        <div class = 'col-6 checkout'>
-          <button class = 'checkout-button' style = ''>Save For Later</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-
+</main>
 
 <script>
   $(document).on("click", "#update-button", function (e) {
@@ -135,4 +119,5 @@ Summary{% endblock %} {% block content %}
     });
   });
 </script>
+
 {% endblock %}
