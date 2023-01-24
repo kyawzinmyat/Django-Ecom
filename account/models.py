@@ -58,3 +58,22 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return str(self.user_name)
+    
+    def clean_username(self):
+        username = self.cleaned_data['user_name'].lower()
+        r = Account.objects.filter(user_name = username)
+        if r.count():
+            raise ValueError('User already exists')
+        return username
+    
+    def clean_password(self):
+        cd = self.cleaned_data
+        if cd['password1'] != cd['password2']:
+            raise ValueError('Password do not match!')
+        return cd['password2']
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if Account.objects.filter(email = email).exists():
+            raise forms.ValidationError('Email already exists')
+        return email
