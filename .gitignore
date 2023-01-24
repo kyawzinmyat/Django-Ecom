@@ -175,3 +175,5 @@ cython_debug/
 
 d_env
 .DS_Store
+store/
+.gitignore
